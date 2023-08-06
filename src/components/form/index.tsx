@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FormNavigator } from '@/util';
 import Link from 'next/link';
 import InfoForm from './info';
+import PlansForm from './plan';
 
 const StepOne = 1;
 const StepTwo = 2;
@@ -34,10 +35,10 @@ const Form = () => {
 
     const renderTabContent = (value: number) => {
         switch (value) {
-            case StepOne: return <InfoForm />
-            case StepTwo: return <InfoForm />
-            case StepThree: return <InfoForm />
-            case StepFour: return <InfoForm />
+            case StepOne: return <InfoForm onSubmit={onSubmit}/>
+            case StepTwo: return <PlansForm onSubmit={onSubmit}/>
+            case StepThree: return <InfoForm onSubmit={onSubmit}/>
+            case StepFour: return <InfoForm onSubmit={onSubmit}/>
         }
     }
     return (
