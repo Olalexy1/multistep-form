@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Layout from './layout'
+import Form from '@/components/form'
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
         <p>Multi step form</p>
       </main> */}
     <Layout>
-      <p>Multi</p>
+      <Form/>
     </Layout>
     </>
   )

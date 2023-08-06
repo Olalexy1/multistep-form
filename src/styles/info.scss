@@ -1,0 +1,23 @@
+.app__info-form {
+    // border: 1px solid red;
+    margin-inline: auto;
+    padding-top: 30px;
+
+    label {
+        font-weight: 400;
+        font-size: 13px;
+        color: var(--Marine-blue)
+    }
+
+    input {
+        width: 100%;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        font-weight: 500;
+        font-size: 14px;
+        color: var(--Marine-blue);
+        border-color: var(--Light-gray);
+    }
+}

@@ -1,0 +1,101 @@
+.app__form-container {
+    background-color: var(--Magnolia);
+    width: 100%;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 50px 0px;
+
+    .app__form-inner-container {
+        border-radius: 8px;
+        width: 100%;
+        flex: 1;
+        display: flex;
+        background-color: var(--White);
+        padding: 10px;
+        flex-direction: row;
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
+        max-width: 60%;
+
+        .app__form-tab {
+            background: url('/bg-sidebar-desktop.svg') no-repeat;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            min-width: 270px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            padding: 40px 40px;
+            color: var(--White);
+
+            .active {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                background-color: transparent;
+                font-weight: 500;
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+
+            .inactive {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                background-color: transparent;
+                font-weight: 500;
+                &:hover {
+                    text-decoration: none;
+                }
+
+            }
+
+            .tab-number-container {
+                display: flex;
+                flex-direction: column;
+                border: 1px solid var(--White);
+                border-radius: 100%;
+                justify-content: center;
+                align-items: center;
+                width: 32px;
+                height: 32px;
+                margin-right: 20px;
+                font-weight: 500;
+            }
+
+            .tab-number-container-active {
+                display: flex;
+                flex-direction: column;
+                border: 1px solid var(--White);
+                border-radius: 100%;
+                justify-content: center;
+                align-items: center;
+                width: 32px;
+                height: 32px;
+                margin-right: 20px;
+                font-weight: 500;
+                background-color: var(--Light-blue);
+                color: var(--Cool-gray);
+                transition: all 0.3s ease-in-out;
+            }
+
+            .tab-header-container {
+
+                .title {
+                    color: var(--Light-gray);
+                    font-size: 12px;
+                }
+
+                .subtitle {
+                    color: var(--White);
+                    font-weight: 600;
+                    font-size: 12px;
+                }
+
+            }
+
+        }
+    }
+}
