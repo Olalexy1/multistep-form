@@ -66,7 +66,7 @@ const InfoForm: React.FC<FormProps> = ({ onSubmit }) => {
                         className=""
                         id="name"
                         type="text"
-                        placeholder={isFocused.nameInput ? '' : 'e.g Stephen King'}
+                        placeholder={isFocused.nameInput ? '' : 'e.g. Stephen King'}
                         name="name"
                         value={name}
                         onChange={handleChangeInput}
@@ -84,7 +84,7 @@ const InfoForm: React.FC<FormProps> = ({ onSubmit }) => {
                         className=""
                         id="email"
                         type="email"
-                        placeholder={isFocused.emailInput ? '' : 'e.g Stephenking@lorem.com'}
+                        placeholder={isFocused.emailInput ? '' : 'e.g. stephenking@lorem.com'}
                         name="email"
                         value={email}
                         onChange={handleChangeInput}
@@ -115,9 +115,8 @@ const InfoForm: React.FC<FormProps> = ({ onSubmit }) => {
             </form>
 
             <div className='app__form-buttons'>
-                <span>Go Back</span>
+                <span style={{visibility: 'hidden'}}>Go Back</span>
                 <button type='submit' onClick={() => handleSubmit(formData)}>Next Step</button>
-
             </div>
         </div>
     )

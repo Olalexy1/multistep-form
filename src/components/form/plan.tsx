@@ -18,6 +18,7 @@ interface PlansProps {
 
 interface FormProps {
     onSubmit: () => void;
+    onBack: () => void;
 }
 
 
@@ -38,35 +39,24 @@ const PlanCards: React.FC<PlansProps> = ({
 
 
 
-const PlansForm: React.FC<FormProps> = ({ onSubmit }) => {
-    // const [formData, setFormData] = useState<FormData>({ name: '', email: '', phoneNumber: '' });
-    // const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-    // const [isFocused, setIsFocused] = useState({
-    //     nameInput: false,
-    //     emailInput: false,
-    //     phoneInput: false
-    // });
+const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
+    const [formData, setFormData] = useState<FormData>({ arcade: '', advanced: '', pro: '' });
 
-    // const { name, email, phoneNumber } = formData;
+    const handleBack = () => {
+        console.log('I have been clicked');
+        onBack();
+    }
 
-    // const handleChangeInput = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    //     const { name, value } = e.target;
-    //     setFormData({ ...formData, [name]: value });
-    // };
+    const handleSubmit = (values: FormData) => {
+        const {
+            arcade,
+            advanced,
+            pro
+        } = values;
 
-    // const handleFocus = (inputName: any) => {
-    //     setIsFocused(prevState => ({
-    //         ...prevState,
-    //         [inputName]: true
-    //     }));
-    // };
+        onSubmit();
+    };
 
-    // const handleBlur = (inputName: any) => {
-    //     setIsFocused(prevState => ({
-    //         ...prevState,
-    //         [inputName]: false
-    //     }));
-    // };
 
     return (
         <div className='app__info-form'>
@@ -75,7 +65,7 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit }) => {
 
                 <div className='billing-type-container'>
                     <span>Monthly</span>
-                    <Switch id="billing-type" colorScheme='teal'/>
+                    <Switch id="billing-type" colorScheme='teal' />
                     <span>Yearly</span>
                 </div>
 
@@ -83,8 +73,8 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit }) => {
             </form>
 
             <div className='app__form-buttons'>
-                <span>Go Back</span>
-                <button>Next Step</button>
+                <span onClick={() => handleBack()}>Go Back</span>
+                <button type='submit' onClick={() => handleSubmit(formData)}>Next Step</button>
             </div>
         </div>
     )

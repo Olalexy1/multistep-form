@@ -4,16 +4,18 @@ import { FormNavigator } from '@/util';
 import Link from 'next/link';
 import InfoForm from './info';
 import PlansForm from './plan';
+import AddOnsForm from './addOns';
+import Summary from './summary';
+import ThankYou from './thankYou';
 
 const StepOne = 1;
 const StepTwo = 2;
 const StepThree = 3;
 const StepFour = 4;
+const StepFive = 5
 
 const Form = () => {
     const [currentTab, setCurrentTab] = useState<number>(StepOne);
-
-    const router = useRouter();
 
     //Handle navigating back
     const handleBackNavigation = () => {
@@ -35,10 +37,11 @@ const Form = () => {
 
     const renderTabContent = (value: number) => {
         switch (value) {
-            case StepOne: return <InfoForm onSubmit={onSubmit}/>
-            case StepTwo: return <PlansForm onSubmit={onSubmit}/>
-            case StepThree: return <InfoForm onSubmit={onSubmit}/>
-            case StepFour: return <InfoForm onSubmit={onSubmit}/>
+            case StepOne: return <InfoForm onSubmit={onSubmit} />
+            case StepTwo: return <PlansForm onSubmit={onSubmit} onBack={handleBackNavigation} />
+            case StepThree: return <AddOnsForm onSubmit={onSubmit} onBack={handleBackNavigation} />
+            case StepFour: return <Summary onSubmit={onSubmit} onBack={handleBackNavigation} />
+            case StepFive: return <ThankYou />
         }
     }
     return (
@@ -58,7 +61,6 @@ const Form = () => {
                             <div className='tab-header-container'>
                                 <p className='title'>{item.title.toUpperCase()}</p>
                                 <p className='subtitle'>{item.subtitle.toUpperCase()}</p>
-
                             </div>
                         </Link>
                     ))}
