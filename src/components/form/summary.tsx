@@ -7,23 +7,20 @@ interface FormData {
 interface FormProps {
     onSubmit: () => void;
     onBack: () => void;
+    addOnValues: any;
 }
 
-const Summary: React.FC<FormProps> = ({ onSubmit, onBack }) => {
+const Summary: React.FC<FormProps> = ({ onSubmit, onBack, addOnValues }) => {
     const [formData, setFormData] = useState<FormData>({});
 
     const handleBack = () => {
         onBack();
     }
 
-    const handleSubmit = (values: FormData) => {
-        const {
-
-        } = values;
+    const handleSubmit = () => {
 
         onSubmit();
     };
-
 
     return (
         <div className='app__info-form'>
@@ -54,7 +51,7 @@ const Summary: React.FC<FormProps> = ({ onSubmit, onBack }) => {
 
             <div className='app__form-buttons'>
                 <span onClick={() => handleBack()}>Go Back</span>
-                <button type='submit' onClick={() => handleSubmit(formData)}>Confirm</button>
+                <button type='submit' onClick={() => handleSubmit()}>Confirm</button>
             </div>
         </div>
     )

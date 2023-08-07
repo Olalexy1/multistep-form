@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { FormNavigator } from '@/util';
 import Link from 'next/link';
@@ -16,6 +15,8 @@ const StepFive = 5
 
 const Form = () => {
     const [currentTab, setCurrentTab] = useState<number>(StepOne);
+    const [selectionValues, setSelectionValues] = useState({});
+    const [selectionSummary, setSelectionSummary] = useState({});
 
     //Handle navigating back
     const handleBackNavigation = () => {
@@ -35,12 +36,22 @@ const Form = () => {
         handleFormNavigator(currentTab + StepOne);
     }
 
-    const renderTabContent = (value: number) => {
+    const handlePlansSubmit = (selectionValues: any) => {
+        setSelectionValues(selectionValues);
+        handleFormNavigator(currentTab + StepOne);
+    };
+
+    const handleAddOnSubmit = (selectedSummary: any) => {
+        setSelectionSummary(selectedSummary);
+        handleFormNavigator(currentTab + StepOne);
+    }
+
+    const renderTabContent = (value: number, selectionValues: {}, selectionSummary: {} ) => {
         switch (value) {
             case StepOne: return <InfoForm onSubmit={onSubmit} />
-            case StepTwo: return <PlansForm onSubmit={onSubmit} onBack={handleBackNavigation} />
-            case StepThree: return <AddOnsForm onSubmit={onSubmit} onBack={handleBackNavigation} />
-            case StepFour: return <Summary onSubmit={onSubmit} onBack={handleBackNavigation} />
+            case StepTwo: return <PlansForm onSubmit={handlePlansSubmit} onBack={handleBackNavigation} />
+            case StepThree: return <AddOnsForm onSubmit={handleAddOnSubmit} onBack={handleBackNavigation} selectionValues={selectionValues} />
+            case StepFour: return <Summary onSubmit={onSubmit} onBack={handleBackNavigation} addOnValues={selectionSummary}/>
             case StepFive: return <ThankYou />
         }
     }
@@ -65,7 +76,7 @@ const Form = () => {
                         </Link>
                     ))}
                 </div>
-                {renderTabContent(currentTab)}
+                {renderTabContent(currentTab, selectionValues, selectionSummary)}
             </div>
         </div>
     )

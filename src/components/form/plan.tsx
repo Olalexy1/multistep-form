@@ -1,15 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../header';
 import { Switch } from '@chakra-ui/react';
 import Image from "next/image";
 import { images } from '@/util';
-
-interface selectOption {
-    id: number;
-    title: string;
-    amount: string;
-    type: string;
-}
 
 interface PlansProps {
     title: string;
@@ -22,7 +15,7 @@ interface PlansProps {
 }
 
 interface FormProps {
-    onSubmit: () => void;
+    onSubmit: (selectionValues: any) => void;
     onBack: () => void;
 }
 
@@ -60,7 +53,8 @@ const PlanCards: React.FC<PlansProps> = ({
     onSelect,
     isSelected,
     image,
-    promo
+    promo,
+    type
 }) => {
     return (
         <div onClick={onSelect}>
@@ -68,43 +62,70 @@ const PlanCards: React.FC<PlansProps> = ({
             <p className='plans-title'>{title}</p>
             <p className='plans-amount'>{amount}</p>
             <p className='plans-promo'>{promo}</p>
+            <p style={{ display: 'none' }}>{type}</p>
         </div>
     );
 };
 
 
 const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
-    // const [selectedOption, setSelectedOption] = useState<selectOption>({ id: 0, title: '', amount: '', type:'' });
-    const [isType, setIsType] = useState('');
     const [isSwitchOn, setIsSwitchOn] = useState(false);
+    const [selectedPlanIndex, setSelectedPlanIndex] = useState<number | null>(null);
+
 
     const handleBack = () => {
         onBack();
     }
 
-    const handleSubmit = () => {
-        onSubmit();
+    const handleSubmit = (selectionValues: any) => {
+        onSubmit(selectionValues);
     };
 
-    const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null);
+
+    // const handleSwitch = () => {
+    //     setIsSwitchOn((prevValue) => !prevValue);
+    // };
 
     const handleSwitch = () => {
-        setIsSwitchOn((prevValue) => !prevValue);
-        console.log(!isSwitchOn);
+        setIsSwitchOn((prevValue) => {
+            const newValue = !prevValue;
+            sessionStorage.setItem('isSwitchOn', JSON.stringify(newValue));
+            return newValue;
+        });
+    };
+    
+
+    const handleCardSelect = (planIndex: number) => {
+        setSelectedPlanIndex(planIndex);
     };
 
-    const handleCardSelect = (planId: number) => {
-        if (isSwitchOn) {
-            setIsType('Yearly');
-            setSelectedPlanId(planId);
+    const selectedPlan = selectedPlanIndex !== null ? planOptions[selectedPlanIndex] : null;
+
+    const selectionValues = {
+        title: selectedPlan?.title,
+        amount: isSwitchOn? selectedPlan?.amountYearly : selectedPlan?.amountMonthly,
+        billingType: isSwitchOn ? 'Yearly' : 'Monthly',
+    }
+
+    console.log(selectionValues, 'selected')
+
+    useEffect(() => {
+        const storedSwitchState = sessionStorage.getItem('isSwitchOn');
+        const storedPlanIndex = sessionStorage.getItem('selectedPlanIndex');
+        
+        if (storedSwitchState !== null) {
+            setIsSwitchOn(JSON.parse(storedSwitchState));
         }
-        else {
-            setIsType('Monthly');
-            setSelectedPlanId(planId);
+        if (storedPlanIndex !== null) {
+            setSelectedPlanIndex(JSON.parse(storedPlanIndex));
         }
-        // setSelectedPlanId(planId);
-        // console.log('I have been selected', planId)
-    };
+    }, []);
+
+    // Save state changes to session storage
+    useEffect(() => {
+        sessionStorage.setItem('isSwitchOn', JSON.stringify(isSwitchOn));
+        sessionStorage.setItem('selectedPlanIndex', JSON.stringify(selectedPlanIndex));
+    }, [isSwitchOn, selectedPlanIndex]);
 
 
     return (
@@ -113,15 +134,17 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
                 <Header headerText="Select your Plan" subtitleText="You have the option of monthly or yearly billing." />
                 <div className='plans-container'>
                     {
-                        planOptions.map((plan) => (
-                            <div className={selectedPlanId === plan.id ? 'plans-active' : 'plans'}>
+                        planOptions.map((plan, index) => (
+                            <div className={selectedPlanIndex === index ? 'plans-active' : 'plans'}>
                                 <PlanCards
+                                    key={plan.id}
                                     title={plan.title}
                                     image={plan.image}
                                     amount={isSwitchOn ? plan.amountYearly : plan.amountMonthly}
                                     promo={isSwitchOn ? plan.promo : ''}
-                                    onSelect={() => handleCardSelect(plan.id)}
-                                    isSelected={selectedPlanId === plan.id}
+                                    type={isSwitchOn ? 'Yearly' : 'Monthly'}
+                                    onSelect={() => handleCardSelect(index)}
+                                    isSelected={selectedPlanIndex === index}
                                 />
                             </div>
                         ))
@@ -130,7 +153,7 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
 
                 <div className='billing-type-container'>
                     <span className={isSwitchOn ? 'duration' : 'duration-active'}>Monthly</span>
-                    <Switch className="switch" colorScheme="" onChange={handleSwitch} />
+                    <Switch className="switch" colorScheme="" onChange={handleSwitch} isChecked={isSwitchOn}/>
                     <span className={isSwitchOn ? 'duration-active' : 'duration'}>Yearly</span>
                 </div>
 
@@ -138,7 +161,7 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
 
             <div className='app__form-buttons'>
                 <span onClick={() => handleBack()}>Go Back</span>
-                <button type='submit' onClick={() => handleSubmit()}>Next Step</button>
+                <button type='submit' onClick={() => handleSubmit(selectionValues)}>Next Step</button>
             </div>
         </div>
     )
