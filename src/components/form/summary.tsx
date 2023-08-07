@@ -19,6 +19,8 @@ const Summary: React.FC<FormProps> = ({ onSubmit, onBack, selectionSummary }) =>
         onSubmit();
     };
 
+
+
     console.log(selectionSummary, 'selection Summary !!!!')
 
     return (
@@ -29,7 +31,7 @@ const Summary: React.FC<FormProps> = ({ onSubmit, onBack, selectionSummary }) =>
                 <div className='summary-container'>
                     <div className='summary-title-container'>
                         <div>
-                            <p>{selectionSummary}</p>
+                            <p>Arcade (Monthly)</p>
                             <a className="subtitle-Text" style={{ textDecoration: 'underline' }} href="#">Change</a>
                         </div>
                         <span>
