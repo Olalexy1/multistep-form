@@ -114,6 +114,13 @@
     justify-content: space-between;
     width: 100%;
 
+    .error-message {
+        text-align: right !important;
+        color: var(--Strawberry-red);
+        font-weight: 600;
+        font-size: 13px;
+    }
+
     .form-control {
         display: flex;
         flex-direction: row;
@@ -182,7 +189,8 @@
 
         .switch {
             margin-inline: 12px;
-            color: var(--Marine-blues);
+            color: var(--Marine-blue) !important;
+            // background-color: var(--Marine-blue);
         }
 
         .duration {
@@ -194,7 +202,7 @@
         .duration-active {
             font-weight: 700;
             font-size: 13px;
-            color: var(--Marine-blues);
+            color: var(--Marine-blue);
         }
     }
 

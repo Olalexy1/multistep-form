@@ -72,14 +72,14 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
     const [isSwitchOn, setIsSwitchOn] = useState(false);
     const [selectedPlanIndex, setSelectedPlanIndex] = useState<number | null>(null);
 
+    const [errors, setErrors] = useState({
+        plan: '',
+    });
+
 
     const handleBack = () => {
         onBack();
     }
-
-    const handleSubmit = (selectionValues: any) => {
-        onSubmit(selectionValues);
-    };
 
     const handleSwitch = () => {
         setIsSwitchOn((prevValue) => {
@@ -92,6 +92,7 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
 
     const handleCardSelect = (planIndex: number) => {
         setSelectedPlanIndex(planIndex);
+        setErrors({ plan: '' })
     };
 
     const selectedPlan = selectedPlanIndex !== null ? planOptions[selectedPlanIndex] : null;
@@ -100,6 +101,19 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
         title: selectedPlan?.title,
         amount: isSwitchOn? selectedPlan?.amountYearly : selectedPlan?.amountMonthly,
         billingType: isSwitchOn ? 'Yearly' : 'Monthly',
+    }
+
+    const validateInputs = () => {
+        let validationPassed = true;
+        const newErrors = { plan: '' };
+
+        if (selectedPlan === null) {
+            newErrors['plan'] ='Plan is required';
+            validationPassed = false;
+        }
+
+        setErrors(newErrors);
+        return validationPassed;
     }
 
     useEffect(() => {
@@ -119,6 +133,14 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
         sessionStorage.setItem('isSwitchOn', JSON.stringify(isSwitchOn));
         sessionStorage.setItem('selectedPlanIndex', JSON.stringify(selectedPlanIndex));
     }, [isSwitchOn, selectedPlanIndex]);
+
+    const handleSubmit = (selectionValues: any) => {
+        // onSubmit(selectionValues);
+
+        if (validateInputs()) {
+            onSubmit(selectionValues);
+        }
+    };
 
 
     return (
@@ -146,9 +168,11 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
 
                 <div className='billing-type-container'>
                     <span className={isSwitchOn ? 'duration' : 'duration-active'}>Monthly</span>
-                    <Switch className="switch" colorScheme="" onChange={handleSwitch} isChecked={isSwitchOn}/>
+                    <Switch className="switch" onChange={handleSwitch} isChecked={isSwitchOn}/>
                     <span className={isSwitchOn ? 'duration-active' : 'duration'}>Yearly</span>
                 </div>
+
+                {errors.plan && <p className="error-message">{errors.plan}</p>}
 
             </form>
 

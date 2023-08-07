@@ -73,11 +73,10 @@ const Form = () => {
             <div className='app__form-inner-container'>
                 <div className='app__form-tab'>
                     {FormNavigator.map((item) => (
-                        <Link
-                            href="#"
+                        <div
                             key={item.id}
                             className={currentTab === item.id ? 'active' : 'inactive'}
-                            onClick={() => handleFormNavigator(item.id)}
+                            // onClick={() => handleFormNavigator(item.id)}
                         >
                             <div className={currentTab === item.id ? 'tab-number-container-active' : 'tab-number-container'}>
                                 {item.id}
@@ -86,7 +85,7 @@ const Form = () => {
                                 <p className='title'>{item.title.toUpperCase()}</p>
                                 <p className='subtitle'>{item.subtitle.toUpperCase()}</p>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
                 {renderTabContent(currentTab, selectionValues, selectionSummary)}
