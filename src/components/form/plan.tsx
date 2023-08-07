@@ -153,7 +153,7 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
                 <div className='plans-container'>
                     {
                         planOptions.map((plan, index) => (
-                            <div className={selectedPlanIndex === index ? 'plans-active' : 'plans'}>
+                            <div key={plan.id} className={selectedPlanIndex === index ? 'plans-active' : 'plans'}>
                                 <PlanCards
                                     key={plan.id}
                                     title={plan.title}

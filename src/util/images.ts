@@ -6,7 +6,7 @@ import checkMark from '../../public/icon-checkmark.svg';
 import pro from '../../public/icon-pro.svg';
 import thankYou from '../../public/icon-thank-you.svg';
 
-export default {
+const images = {
     bgSideBarDesktop,
     bgSideBarMobile,
     advanced,
@@ -14,4 +14,6 @@ export default {
     checkMark,
     pro,
     thankYou
-}
+};
+
+export default images;
