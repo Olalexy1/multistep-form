@@ -13,7 +13,7 @@ const Header = (props:any) => {
 
     return (
         <div className="app__header">
-            <h1>{props.headerText}</h1>
+            <h2>{props.headerText}</h2>
             <p>{props.subtitleText}</p>
         </div>
     )

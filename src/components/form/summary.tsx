@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '../header';
 
 interface FormData {
-    
+
 }
 interface FormProps {
     onSubmit: () => void;
@@ -10,16 +10,15 @@ interface FormProps {
 }
 
 const Summary: React.FC<FormProps> = ({ onSubmit, onBack }) => {
-    const [formData, setFormData] = useState<FormData>({  });
+    const [formData, setFormData] = useState<FormData>({});
 
     const handleBack = () => {
-        console.log('I have been clicked');
         onBack();
     }
 
     const handleSubmit = (values: FormData) => {
         const {
-            
+
         } = values;
 
         onSubmit();
@@ -32,28 +31,24 @@ const Summary: React.FC<FormProps> = ({ onSubmit, onBack }) => {
                 <Header headerText="Finishing up" subtitleText="Double check everything looks Ok before confirming." />
 
                 <div className='summary-container'>
-                    <div>
+                    <div className='summary-title-container'>
                         <div>
                             <p>Arcade (Monthly)</p>
-                            <p> Access to multiplayer games</p>
+                            <a className="subtitle-Text" style={{ textDecoration: 'underline' }} href="#">Change</a>
                         </div>
                         <span>
-                            +$1/mo
+                            $9/mo
                         </span>
                     </div>
-                    <div/>
+                    <div className='divider' />
                     <div>
-                        
-                    </div>
-                    <div>
-                        
-                    </div>
-                </div>
-                <div>
-                    <p>Total (per Month)</p>
-                    <p>+$12/mo</p>
-                </div>
 
+                    </div>
+                </div>
+                <div className='summary-total-container'>
+                    <p className='subtitle-Text'>Total (per Month)</p>
+                    <span className='summary-amountText'>+$12/mo</span>
+                </div>
 
             </form>
 

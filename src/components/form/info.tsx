@@ -1,5 +1,6 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import Header from '../header';
+import { validateEmail } from '@/util';
 
 interface FormData {
     name: string;
@@ -12,8 +13,14 @@ interface FormProps {
 }
 
 const InfoForm: React.FC<FormProps> = ({ onSubmit }) => {
-    const [formData, setFormData] = useState<FormData>({ name: '', email: '', phoneNumber: '' });
+    const [formData, setFormData] = useState<FormData>({
+        name: '',
+        email: '',
+        phoneNumber: ''
+    });
+
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
     const [isFocused, setIsFocused] = useState({
         nameInput: false,
         emailInput: false,
@@ -22,35 +29,73 @@ const InfoForm: React.FC<FormProps> = ({ onSubmit }) => {
 
     const { name, email, phoneNumber } = formData;
 
-    const handleChangeInput = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const [errors, setErrors] = useState({
+        name: '',
+        email: '',
+        phoneNumber: ''
+    });
+
+    const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData(prevData => ({ ...prevData, [name]: value }));
+        setErrors(prevErrors => ({ ...prevErrors, [name]: '' }));
     };
 
-    const handleFocus = (inputName: any) => {
+    const handleFocus = (inputName: string) => {
         setIsFocused(prevState => ({
             ...prevState,
             [inputName]: true
         }));
     };
 
-    const handleBlur = (inputName: any) => {
+    const handleBlur = (inputName: string) => {
         setIsFocused(prevState => ({
             ...prevState,
             [inputName]: false
         }));
     };
 
-    const handleSubmit = (values: FormData) => {
-        const {
-            name,
-            email,
-            phoneNumber
-        } = values;
+    const validateInputs = () => {
+        let validationPassed = true;
+        const newErrors = { name: '', email: '', phoneNumber: '' };
 
-        console.log('I have been clicked')
+        if (!name.trim()) {
+            newErrors.name = 'Name is required';
+            validationPassed = false;
+        }
 
-        onSubmit();
+        if (!email.trim()) {
+            newErrors.email = 'Email is required';
+            validationPassed = false;
+        } else if (!validateEmail(email)) {
+            newErrors.email = 'Invalid email format';
+            validationPassed = false;
+        }
+
+        if (!phoneNumber.trim()) {
+            newErrors.phoneNumber = 'Phone number is required';
+            validationPassed = false;
+        }
+
+        setErrors(newErrors);
+        return validationPassed;
+    };
+
+    useEffect(() => {
+        const storedFormData = sessionStorage.getItem('formData');
+        if (storedFormData) {
+            setFormData(JSON.parse(storedFormData));
+        }
+    }, []);
+
+    useEffect(() => {
+        sessionStorage.setItem('formData', JSON.stringify(formData));
+    }, [formData]);
+
+    const handleSubmit = () => {
+        if (validateInputs()) {
+            onSubmit();
+        }
     };
 
     return (
@@ -60,7 +105,7 @@ const InfoForm: React.FC<FormProps> = ({ onSubmit }) => {
                 <div>
                     <div className='form-control'>
                         <label htmlFor='name'>Name</label>
-                        <span></span>
+                        {errors.name && <p className="error-message">{errors.name}</p>}
                     </div>
                     <input
                         className=""
@@ -70,15 +115,15 @@ const InfoForm: React.FC<FormProps> = ({ onSubmit }) => {
                         name="name"
                         value={name}
                         onChange={handleChangeInput}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        onFocus={() => handleFocus('nameInput')}
+                        onBlur={() => handleBlur('nameInput')}
                         required />
                 </div>
 
                 <div>
                     <div className='form-control'>
                         <label htmlFor='email'>Email Address</label>
-                        <span></span>
+                        {errors.email && <p className="error-message">{errors.email}</p>}
                     </div>
                     <input
                         className=""
@@ -88,15 +133,15 @@ const InfoForm: React.FC<FormProps> = ({ onSubmit }) => {
                         name="email"
                         value={email}
                         onChange={handleChangeInput}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        onFocus={() => handleFocus('emailInput')}
+                        onBlur={() => handleBlur('emailInput')}
                         required />
                 </div>
 
                 <div>
                     <div className='form-control'>
                         <label htmlFor='phone'>Phone Number</label>
-                        <span></span>
+                        {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
                     </div>
                     <input
                         className=""
@@ -107,19 +152,18 @@ const InfoForm: React.FC<FormProps> = ({ onSubmit }) => {
                         name="phoneNumber"
                         value={phoneNumber}
                         onChange={handleChangeInput}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
+                        onFocus={() => handleFocus('phoneInput')}
+                        onBlur={() => handleBlur('phoneInput')}
                         required />
                 </div>
-
             </form>
 
             <div className='app__form-buttons'>
-                <span style={{visibility: 'hidden'}}>Go Back</span>
-                <button type='submit' onClick={() => handleSubmit(formData)}>Next Step</button>
+                <span style={{ visibility: 'hidden' }}>Go Back</span>
+                <button type='button' onClick={handleSubmit}>Next Step</button>
             </div>
         </div>
-    )
+    );
 }
 
 export default InfoForm;

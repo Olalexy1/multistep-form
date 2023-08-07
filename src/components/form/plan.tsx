@@ -1,11 +1,14 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import Header from '../header';
-import { Switch } from '@chakra-ui/react'
+import { Switch } from '@chakra-ui/react';
+import Image from "next/image";
+import { images } from '@/util';
 
-interface FormData {
-    arcade: string;
-    advanced: string;
-    pro: string;
+interface selectOption {
+    id: number;
+    title: string;
+    amount: string;
+    type: string;
 }
 
 interface PlansProps {
@@ -13,7 +16,9 @@ interface PlansProps {
     amount: string;
     onSelect: () => void;
     isSelected: boolean;
-    type: string;
+    type?: string;
+    image: string;
+    promo?: string;
 }
 
 interface FormProps {
@@ -21,40 +26,84 @@ interface FormProps {
     onBack: () => void;
 }
 
+const planOptions = [
+    {
+        id: 1,
+        title: 'Arcade',
+        amountMonthly: '$9/mo',
+        amountYearly: '$90/yr',
+        image: images.arcade,
+        promo: '2 months free'
+    },
+    {
+        id: 2,
+        title: 'Advanced',
+        amountMonthly: '$12/mo',
+        amountYearly: '$120/yr',
+        image: images.advanced,
+        promo: '2 months free'
+    },
+    {
+        id: 3,
+        title: 'Pro',
+        amountMonthly: '$15/mo',
+        amountYearly: '$150/yr',
+        image: images.pro,
+        promo: '2 months free'
+    }
+];
+
 
 const PlanCards: React.FC<PlansProps> = ({
     title,
     amount,
     onSelect,
     isSelected,
+    image,
+    promo
 }) => {
     return (
-        <div>
-            <p>Arcade</p>
+        <div onClick={onSelect}>
+            <Image className='plans-img' src={image} alt="plans" />
+            <p className='plans-title'>{title}</p>
+            <p className='plans-amount'>{amount}</p>
+            <p className='plans-promo'>{promo}</p>
         </div>
     );
 };
 
-//   export default PlanCards;
-
-
 
 const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
-    const [formData, setFormData] = useState<FormData>({ arcade: '', advanced: '', pro: '' });
+    // const [selectedOption, setSelectedOption] = useState<selectOption>({ id: 0, title: '', amount: '', type:'' });
+    const [isType, setIsType] = useState('');
+    const [isSwitchOn, setIsSwitchOn] = useState(false);
 
     const handleBack = () => {
-        console.log('I have been clicked');
         onBack();
     }
 
-    const handleSubmit = (values: FormData) => {
-        const {
-            arcade,
-            advanced,
-            pro
-        } = values;
-
+    const handleSubmit = () => {
         onSubmit();
+    };
+
+    const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null);
+
+    const handleSwitch = () => {
+        setIsSwitchOn((prevValue) => !prevValue);
+        console.log(!isSwitchOn);
+    };
+
+    const handleCardSelect = (planId: number) => {
+        if (isSwitchOn) {
+            setIsType('Yearly');
+            setSelectedPlanId(planId);
+        }
+        else {
+            setIsType('Monthly');
+            setSelectedPlanId(planId);
+        }
+        // setSelectedPlanId(planId);
+        // console.log('I have been selected', planId)
     };
 
 
@@ -62,19 +111,34 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
         <div className='app__info-form'>
             <form className='form'>
                 <Header headerText="Select your Plan" subtitleText="You have the option of monthly or yearly billing." />
-
-                <div className='billing-type-container'>
-                    <span>Monthly</span>
-                    <Switch id="billing-type" colorScheme='teal' />
-                    <span>Yearly</span>
+                <div className='plans-container'>
+                    {
+                        planOptions.map((plan) => (
+                            <div className={selectedPlanId === plan.id ? 'plans-active' : 'plans'}>
+                                <PlanCards
+                                    title={plan.title}
+                                    image={plan.image}
+                                    amount={isSwitchOn ? plan.amountYearly : plan.amountMonthly}
+                                    promo={isSwitchOn ? plan.promo : ''}
+                                    onSelect={() => handleCardSelect(plan.id)}
+                                    isSelected={selectedPlanId === plan.id}
+                                />
+                            </div>
+                        ))
+                    }
                 </div>
 
+                <div className='billing-type-container'>
+                    <span className={isSwitchOn ? 'duration' : 'duration-active'}>Monthly</span>
+                    <Switch className="switch" colorScheme="" onChange={handleSwitch} />
+                    <span className={isSwitchOn ? 'duration-active' : 'duration'}>Yearly</span>
+                </div>
 
             </form>
 
             <div className='app__form-buttons'>
                 <span onClick={() => handleBack()}>Go Back</span>
-                <button type='submit' onClick={() => handleSubmit(formData)}>Next Step</button>
+                <button type='submit' onClick={() => handleSubmit()}>Next Step</button>
             </div>
         </div>
     )

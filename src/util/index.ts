@@ -11,21 +11,21 @@ const FormNavigator = [
     {
         id: 2,
         title: 'Step 2',
-        subtitle: 'Select Plans',
+        subtitle: 'Select Plan',
         button: 'Next Step',
     },
 
     {
         id: 3,
         title: 'Step 3',
-        subtitle: 'Add On',
+        subtitle: 'Add-Ons',
         button: 'Confirm',
     },
     {
         id: 4,
         title: 'Step 4',
-        subtitle: 'summary',
-        button: 'confirm',
+        subtitle: 'Summary',
+        button: 'Confirm',
     }
 ];
 
