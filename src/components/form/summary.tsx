@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
 import Header from '../header';
 
-interface FormData {
 
-}
 interface FormProps {
     onSubmit: () => void;
     onBack: () => void;
-    addOnValues: any;
+    selectionSummary: any;
 }
 
-const Summary: React.FC<FormProps> = ({ onSubmit, onBack, addOnValues }) => {
-    const [formData, setFormData] = useState<FormData>({});
+const Summary: React.FC<FormProps> = ({ onSubmit, onBack, selectionSummary }) => {
+    // const [formData, setFormData] = useState<FormData>({});
 
     const handleBack = () => {
         onBack();
     }
 
     const handleSubmit = () => {
-
         onSubmit();
     };
+
+    console.log(selectionSummary, 'selection Summary !!!!')
 
     return (
         <div className='app__info-form'>
@@ -30,7 +29,7 @@ const Summary: React.FC<FormProps> = ({ onSubmit, onBack, addOnValues }) => {
                 <div className='summary-container'>
                     <div className='summary-title-container'>
                         <div>
-                            <p>Arcade (Monthly)</p>
+                            <p>{selectionSummary}</p>
                             <a className="subtitle-Text" style={{ textDecoration: 'underline' }} href="#">Change</a>
                         </div>
                         <span>

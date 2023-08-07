@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../header';
 
 interface AddonOption {
@@ -51,15 +51,24 @@ const AddOnsForm: React.FC<FormProps> = ({ onSubmit, onBack, selectionValues }) 
         // console.log('I have been submitted', selectedAddons)
     };
 
+    useEffect(() => {
+        const storedSelectedAddons = sessionStorage.getItem('selectedAddons');
+        if (storedSelectedAddons) {
+            setSelectedAddons(JSON.parse(storedSelectedAddons));
+        }
+    }, []);
+
     const handleToggleAddon = (addon: AddonOption) => {
         setSelectedAddons(prevSelectedAddons => {
-            if (prevSelectedAddons.some(a => a.id === addon.id)) {
-                return prevSelectedAddons.filter(a => a.id !== addon.id);
-            } else {
-                return [...prevSelectedAddons, addon];
-            }
+            const updatedAddons = prevSelectedAddons.some(a => a.id === addon.id)
+                ? prevSelectedAddons.filter(a => a.id !== addon.id)
+                : [...prevSelectedAddons, addon];
+    
+            sessionStorage.setItem('selectedAddons', JSON.stringify(updatedAddons));
+            return updatedAddons;
         });
     };
+    
 
     const billingType = selectionValues.billingType;
     const title = selectionValues.title;
@@ -71,8 +80,6 @@ const AddOnsForm: React.FC<FormProps> = ({ onSubmit, onBack, selectionValues }) 
         amount: planAmount,
         selectedAddons,
     }
-
-    console.log(summary, 'summary')
 
     return (
         <div className='app__info-form'>
@@ -109,7 +116,7 @@ const AddOnsForm: React.FC<FormProps> = ({ onSubmit, onBack, selectionValues }) 
 
             <div className='app__form-buttons'>
                 <span onClick={() => handleBack()}>Go Back</span>
-                <button type='submit' onClick={() => handleSubmit(selectedAddons)}>Next Step</button>
+                <button type='submit' onClick={() => handleSubmit(summary)}>Next Step</button>
             </div>
         </div>
     )

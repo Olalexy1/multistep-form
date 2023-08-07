@@ -11,7 +11,6 @@ const StepOne = 1;
 const StepTwo = 2;
 const StepThree = 3;
 const StepFour = 4;
-const StepFive = 5
 
 const Form = () => {
     const [currentTab, setCurrentTab] = useState<number>(StepOne);
@@ -51,8 +50,8 @@ const Form = () => {
             case StepOne: return <InfoForm onSubmit={onSubmit} />
             case StepTwo: return <PlansForm onSubmit={handlePlansSubmit} onBack={handleBackNavigation} />
             case StepThree: return <AddOnsForm onSubmit={handleAddOnSubmit} onBack={handleBackNavigation} selectionValues={selectionValues} />
-            case StepFour: return <Summary onSubmit={onSubmit} onBack={handleBackNavigation} addOnValues={selectionSummary}/>
-            case StepFive: return <ThankYou />
+            case StepFour: return <Summary onSubmit={onSubmit} onBack={handleBackNavigation} selectionSummary={selectionSummary}/>
+            // case StepFive: return <ThankYou />
         }
     }
     return (

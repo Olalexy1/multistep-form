@@ -81,11 +81,6 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
         onSubmit(selectionValues);
     };
 
-
-    // const handleSwitch = () => {
-    //     setIsSwitchOn((prevValue) => !prevValue);
-    // };
-
     const handleSwitch = () => {
         setIsSwitchOn((prevValue) => {
             const newValue = !prevValue;
@@ -106,8 +101,6 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
         amount: isSwitchOn? selectedPlan?.amountYearly : selectedPlan?.amountMonthly,
         billingType: isSwitchOn ? 'Yearly' : 'Monthly',
     }
-
-    console.log(selectionValues, 'selected')
 
     useEffect(() => {
         const storedSwitchState = sessionStorage.getItem('isSwitchOn');
