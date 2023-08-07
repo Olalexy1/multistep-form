@@ -48,7 +48,6 @@ const AddOnsForm: React.FC<FormProps> = ({ onSubmit, onBack, selectionValues }) 
 
     const handleSubmit = (summary: any) => {
         onSubmit(summary);
-        // console.log('I have been submitted', selectedAddons)
     };
 
     useEffect(() => {

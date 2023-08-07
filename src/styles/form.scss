@@ -363,6 +363,7 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+            gap: 30px;
         }
 
         p,
@@ -375,7 +376,7 @@
         .divider {
             height: 1px !important;
             background-color: var(--Light-gray);
-            margin-top: 20px;
+            margin-block: 20px;
         }
 
         

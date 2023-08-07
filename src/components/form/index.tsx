@@ -16,6 +16,7 @@ const Form = () => {
     const [currentTab, setCurrentTab] = useState<number>(StepOne);
     const [selectionValues, setSelectionValues] = useState({});
     const [selectionSummary, setSelectionSummary] = useState({});
+    const [summarySubmitted, setSummarySubmitted] = useState(false);
 
     //Handle navigating back
     const handleBackNavigation = () => {
@@ -24,6 +25,10 @@ const Form = () => {
         } else {
             setCurrentTab(currentTab - StepOne);
         }
+    };
+
+    const handleBackNavigationChange = () => {
+        setCurrentTab(currentTab - StepTwo);
     };
 
     //Handle form transitioning
@@ -45,13 +50,22 @@ const Form = () => {
         handleFormNavigator(currentTab + StepOne);
     }
 
+    const handleSummarySubmit = () => {
+        setSummarySubmitted(true)
+    }
+
     const renderTabContent = (value: number, selectionValues: {}, selectionSummary: {} ) => {
         switch (value) {
             case StepOne: return <InfoForm onSubmit={onSubmit} />
             case StepTwo: return <PlansForm onSubmit={handlePlansSubmit} onBack={handleBackNavigation} />
             case StepThree: return <AddOnsForm onSubmit={handleAddOnSubmit} onBack={handleBackNavigation} selectionValues={selectionValues} />
-            case StepFour: return <Summary onSubmit={onSubmit} onBack={handleBackNavigation} selectionSummary={selectionSummary}/>
-            // case StepFive: return <ThankYou />
+            // case StepFour: return <Summary onSubmit={onSubmit} onBack={handleBackNavigation} selectionSummary={selectionSummary} onChange={handleBackNavigationChange}/>
+            case StepFour:
+            if (summarySubmitted) {
+                return <ThankYou />; 
+            } else {
+                return <Summary onSubmit={handleSummarySubmit} onBack={handleBackNavigation} selectionSummary={selectionSummary} onChange={handleBackNavigationChange} />
+            }
         }
     }
     return (
