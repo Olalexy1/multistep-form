@@ -5,6 +5,7 @@
     display: flex;
     justify-content: center;
     padding: 50px 0px;
+    // border: 1px solid red;
 
     .app__form-inner-container {
         border-radius: 8px;
@@ -102,10 +103,41 @@
 
         }
     }
+
+    @media screen and (max-width: 450px) {
+        padding: 0px !important;
+
+        .app__form-inner-container {
+            max-width: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 0px;
+            background-color: var(--Alabaster);
+
+            .app__form-tab {
+                background: url('/bg-sidebar-mobile.svg') no-repeat;
+                background-size: cover;
+                background-position: center;
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: center;
+                border-radius: 0px;
+                min-width: 100%;
+                gap: 5px;
+                height: 20%;
+
+                .tab-header-container {
+                    display: none;
+                }
+            }
+        }
+    }
 }
 
 .app__info-form {
-    // border: 1px solid red;
+    // border: 1px solid blue;
     margin-inline: 60px;
     padding-top: 30px;
     padding-bottom: 15px;
@@ -176,6 +208,16 @@
             font-size: 14px;
             cursor: pointer;
         }
+
+        @media screen and (max-width: 450px) {
+           background-color: var(--White);
+           position: absolute;
+           width: 100%;
+           bottom: 0px;
+           left: 0px;
+           height: 10%;
+           padding: 20px;
+        }
     }
 
     .billing-type-container {
@@ -228,6 +270,10 @@
             font-weight: 500;
             line-height: 20px;
         }
+
+        @media screen and (max-width: 450px) {
+            padding-block: 25%;
+        }
     }
 
     .plans-container {
@@ -257,6 +303,15 @@
 
         .plans-img {
             margin-bottom: 30px;
+
+            @media screen and (max-width: 450px) {
+                margin-bottom: 0px;
+            }
+        }
+
+        @media screen and (max-width: 450px) {
+            display: flex;
+            flex-direction: column;
         }
     }
 
@@ -269,6 +324,20 @@
         padding: 10px;
         cursor: pointer;
         // transition: all 0.3s ease-in-out;
+
+        @media screen and (max-width: 450px) {
+            div {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .plans-text-container {
+                margin-left: 20px;
+                display: flex;
+                flex-direction: column;
+            }
+
+        }
     }
 
     .plans-active {
@@ -280,6 +349,20 @@
         padding: 8px;
         cursor: pointer;
         transition: all 0.3s ease-in-out;
+
+        @media screen and (max-width: 450px) {
+            div {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .plans-text-container {
+                margin-left: 20px;
+                display: flex;
+                flex-direction: column;
+            }
+
+        }
     }
 
     .addons-container {
@@ -356,7 +439,7 @@
             color: var(--Purplish-blue);
         }
     }
-    
+
 
     .summary-container {
         display: flex;
@@ -387,9 +470,9 @@
             margin-block: 20px;
         }
 
-        
+
     }
-    
+
     .subtitle-Text {
         font-weight: 500;
         font-size: 13px;
@@ -407,5 +490,16 @@
             font-size: 15px;
             color: var(--Purplish-blue);
         }
+    }
+
+    @media screen and (max-width: 450px) {
+        margin-inline: 0px;
+        border-radius: 10px;
+        width: 92%;
+        align-self: center;
+        margin-top: -80px;
+        z-index: 99;
+        background-color: var(--White);
+        padding-inline: 20px;
     }
 }

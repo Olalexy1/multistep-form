@@ -13,4 +13,10 @@
         font-weight: 500;
         font-size: 13px;
     }
+
+    @media screen and (max-width: 450px) {
+        h2 {
+            margin-bottom: 0px;
+        }
+    }
 }

@@ -59,10 +59,13 @@ const PlanCards: React.FC<PlansProps> = ({
     return (
         <div onClick={onSelect}>
             <Image className='plans-img' src={image} alt="plans" />
-            <p className='plans-title'>{title}</p>
-            <p className='plans-amount'>{amount}</p>
-            <p className='plans-promo'>{promo}</p>
-            <p style={{ display: 'none' }}>{type}</p>
+            <div className='plans-text-container'>
+                <p className='plans-title'>{title}</p>
+                <p className='plans-amount'>{amount}</p>
+                <p className='plans-promo'>{promo}</p>
+                <p style={{ display: 'none' }}>{type}</p>
+            </div>
+
         </div>
     );
 };
@@ -88,7 +91,7 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
             return newValue;
         });
     };
-    
+
 
     const handleCardSelect = (planIndex: number) => {
         setSelectedPlanIndex(planIndex);
@@ -99,7 +102,7 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
 
     const selectionValues = {
         title: selectedPlan?.title,
-        amount: isSwitchOn? selectedPlan?.amountYearly : selectedPlan?.amountMonthly,
+        amount: isSwitchOn ? selectedPlan?.amountYearly : selectedPlan?.amountMonthly,
         billingType: isSwitchOn ? 'Yearly' : 'Monthly',
     }
 
@@ -108,7 +111,7 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
         const newErrors = { plan: '' };
 
         if (selectedPlan === null) {
-            newErrors['plan'] ='Plan is required';
+            newErrors['plan'] = 'Plan is required';
             validationPassed = false;
         }
 
@@ -119,7 +122,7 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
     useEffect(() => {
         const storedSwitchState = sessionStorage.getItem('isSwitchOn');
         const storedPlanIndex = sessionStorage.getItem('selectedPlanIndex');
-        
+
         if (storedSwitchState !== null) {
             setIsSwitchOn(JSON.parse(storedSwitchState));
         }
@@ -168,7 +171,7 @@ const PlansForm: React.FC<FormProps> = ({ onSubmit, onBack }) => {
 
                 <div className='billing-type-container'>
                     <span className={isSwitchOn ? 'duration' : 'duration-active'}>Monthly</span>
-                    <Switch className="switch" onChange={handleSwitch} isChecked={isSwitchOn}/>
+                    <Switch className="switch" onChange={handleSwitch} isChecked={isSwitchOn} />
                     <span className={isSwitchOn ? 'duration-active' : 'duration'}>Yearly</span>
                 </div>
 
